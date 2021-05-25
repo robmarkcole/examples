@@ -17,7 +17,7 @@ parser.add_argument('--testBatchSize', type=int, default=10, help='testing batch
 parser.add_argument('--nEpochs', type=int, default=2, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.01, help='Learning Rate. Default=0.01')
 parser.add_argument('--cuda', action='store_true', help='use cuda?')
-parser.add_argument('--threads', type=int, default=4, help='number of threads for data loader to use')
+parser.add_argument('--threads', type=int, default=1, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=123, help='random seed to use. Default=123')
 opt = parser.parse_args()
 
@@ -29,6 +29,7 @@ if opt.cuda and not torch.cuda.is_available():
 torch.manual_seed(opt.seed)
 
 device = torch.device("cuda" if opt.cuda else "cpu")
+print(f'device: {device}')
 
 print('===> Loading datasets')
 train_set = get_training_set(opt.upscale_factor)
@@ -77,7 +78,8 @@ def checkpoint(epoch):
     torch.save(model, model_out_path)
     print("Checkpoint saved to {}".format(model_out_path))
 
-for epoch in range(1, opt.nEpochs + 1):
-    train(epoch)
-    test()
-    checkpoint(epoch)
+if __name__ == '__main__':    
+    for epoch in range(1, opt.nEpochs + 1):
+        train(epoch)
+        test()
+        checkpoint(epoch)

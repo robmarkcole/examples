@@ -18,3 +18,8 @@ fast_neural_style/saved_models.zip
 dcgan/venv/*
 dcgan/cifar-10-batches-py/*
 *.gz
+*.jpg
+*.pth
+*/venv/*
+super_resolution/dataset/BSDS300/iids_test.txt
+super_resolution/dataset/BSDS300/iids_train.txt
